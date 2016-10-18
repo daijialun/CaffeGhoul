@@ -6,4 +6,5 @@ obj
 obj/*
 *.cbp
 *.layout
-
+*.depend
+data/
