@@ -32,9 +32,16 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="blob.cpp" />
+		<Unit filename="blob.hpp" />
+		<Unit filename="conv_layer.cpp" />
+		<Unit filename="conv_layer.hpp" />
 		<Unit filename="io.cpp" />
 		<Unit filename="io.hpp" />
+		<Unit filename="layer.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="net.cpp" />
+		<Unit filename="net.hpp" />
 		<Unit filename="solver.cpp" />
 		<Unit filename="solver.hpp" />
 		<Extensions>

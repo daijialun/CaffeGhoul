@@ -3,8 +3,14 @@
 #include <glog/logging.h>
 #include <map>
 #include <string>
-#include<vector>
+#include <vector>
 
+#include "caffe.pb.h"
+#include "blob.hpp"
+#include "io.hpp"
+#include "net.hpp"
+
+/*
 DEFINE_string(solver, "",
     "The solver definition protocol buffer text file.");
 
@@ -45,9 +51,8 @@ static BrewFunction GetBrewFunction(const std::string& name)  {
 
 int train()  {
             CHECK_GT(FLAGS_solver.size(), 0) << "Need a solver definition to train.";
-            NetParameter net_param;
-            ReadProtoFromTextFile("data/lenet.prototxt", &net_param);
-            ReadSolverParamsFromTextFileOrDie(FLAGS_solver, &solver_param);
+            caffe::NetParameter net_param;
+            caffe::ReadProtoFromTextFile("data/lenet.prototxt", &net_param);
             return 0;
 }
 RegisterBrewFunction(train);
@@ -56,12 +61,14 @@ int test()  {
             CHECK_GT(FLAGS_solver.size(), 0) << "Need a solver definition to train.";
             return 0;
 }
-RegisterBrewFunction(train);
+RegisterBrewFunction(test);
+*/
 
 int main(int argc, char** argv)
 {
-        FLAGS_alsologtostderr = 1;
-        GlobalInit(&argc, &argv);
-        GetBrewFunction(std::string(argv[1]))();
+        caffe::NetParameter net_param;
+        caffe::ReadProtoFromTextFile("data/lenet.prototxt", &net_param);
+        std::vector<caffe::Blob*> bottom_vec;
+        caffe::Net caffe_net(net_param, bottom_vec);
         return 0;
 }
