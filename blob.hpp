@@ -26,6 +26,8 @@ public:
             return ((n * channels_ + c) * height_ + h) * width_ + w;
         }
 
+        // Copy from source. If copy_diff is false, we copy the data; if copy_diff is true, we copy the diff.
+        void CopyFrom(const Blob& source, bool copy_diff = false, bool reshape = false);
 
 protected:
         boost::shared_ptr<float> data_;

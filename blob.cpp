@@ -53,4 +53,21 @@ void Blob::Reshape(const int num, const int channels, const int height, const in
             diff_.reset( new float[count_] );
         }
 }
+
+void Blob::CopyFrom(const Blob& source, bool copy_diff, bool reshape) {
+        if (num_ != source.num() || channels_ != source.channels() ||
+            height_ != source.height() || width_ != source.width()) {
+                if ( reshape ) {
+                        Reshape(source.num(), source.channels(), source.height(), source.width());
+                } else {
+                        LOG(FATAL) << "Trying to copy blobs of different sizes.";
+                }
+        }
+        /*if ( copy_diff ) {
+                memcpy(diff_->mutable_data(), source.diff(), sizeof(float) * count_);
+        } else {
+                memcpy(data_->mutable_data(), source.data(), sizeof(float) * count_);
+        }*/
+}
+
 }
