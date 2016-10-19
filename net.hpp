@@ -36,6 +36,8 @@ public:
         // returns the parameters
         std::vector<boost::shared_ptr<Blob > >& params() { return params_; };
 
+        void Update();
+
 protected:
         // Individual layers in the net
         std::vector<boost::shared_ptr<Layer> > layers_;

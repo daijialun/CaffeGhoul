@@ -109,6 +109,21 @@ const std::vector<Blob*>& Net::Forward(const std::vector<Blob*> & bottom) {
         return net_output_blobs_;
 }
 
+float Net::Backward() {
+        float loss = 0;
+        // TODO(Yangqing): figure out those layers that do not need backward.
+        for (int i = layers_.size() - 1; i >= 0; --i) {
+                float layer_loss = layers_[i]->Backward( top_vecs_[i], true, &bottom_vecs_[i]);
+                loss += layer_loss;
+        }
+        return loss;
+}
+
+void Net::Update() {
+    for (int i = 0; i < params_.size(); ++i) {
+            params_[i]->Update();
+    }
+}
 
 }
 
