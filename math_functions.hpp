@@ -28,6 +28,10 @@ void caffe_exp(const int n, const float* a, float* y);
 void caffe_mul(const int N, const float* a, const float* b, float* y);
 
 float caffe_cpu_dot(const int n, const float* x, const float* y);
+
+void caffe_copy(const int N, const float *X, float *Y);
+
+void caffe_axpby(const int N, const float alpha, const float* X, const float beta, float* Y);
 /*void caffe_cpu_axpby(const int N, const float alpha, const float* X,
     const float beta, float* Y);
 

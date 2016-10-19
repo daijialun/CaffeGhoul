@@ -41,6 +41,15 @@ float caffe_cpu_dot(const int n, const float* x, const float* y) {
         return cblas_sdot(n, x, 1, y, 1);
 }
 
+void caffe_copy(const int N, const float *X, float *Y)  {
+  cblas_scopy(N, X, 1, Y, 1);
+}
+
+void caffe_axpby(const int N, const float alpha, const float* X,
+    const float beta, float* Y) {
+  cblas_saxpby(N, alpha, X, 1, beta, Y, 1);
+}
+
 }
 
 
