@@ -12,11 +12,9 @@ public:
         virtual void SetUp(const std::vector<Blob*>& bottom, std::vector<Blob*>* top);
         virtual void Forward(const std::vector<Blob*>& bottom, std::vector<Blob*>* top);
         // The accuracy layer should not be used to compute backward operations.
-        virtual float Backward(const std::vector<Blob*>& top,
-            const bool propagate_down, std::vector<Blob*>* bottom) {
+        virtual float Backward(const std::vector<Blob*>& top, const bool propagate_down, std::vector<Blob*>* bottom) {
                     return float(0.);
         }
-
 };
 
 }

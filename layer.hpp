@@ -14,7 +14,10 @@ public:
          void Reshape(const int num, const int height, const int width, const int channels);
          virtual void SetUp(const std::vector<Blob*> &bottom, std::vector<Blob*> *top) = 0;
          virtual void Forward(const std::vector<Blob*> &bottom, std::vector<Blob*> *top)=0;
-         virtual float Backward(const std::vector<Blob*> &top, std::vector<Blob*> *bottom)=0;
+         virtual float Backward(const std::vector<Blob*> &top,  const bool propagate_down, std::vector<Blob*> *bottom)=0;
+        std::vector<boost::shared_ptr<Blob> >& blobs() {
+                return blobs_;
+        }
 
 protected:
         LayerParameter layer_param_;
