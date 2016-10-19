@@ -2,6 +2,7 @@
 #include <glog/logging.h>
 //#include "proto/caffe.bp.h"
 #include "blob.hpp"
+#include "math_functions.hpp"
 
 namespace caffe {
 
@@ -70,4 +71,9 @@ void Blob::CopyFrom(const Blob& source, bool copy_diff, bool reshape) {
         }*/
 }
 
+void Blob::Update() {
+        caffe_axpy(count_, float(-1), (const float*)diff_.get(), data_.get());
 }
+
+}
+
