@@ -75,5 +75,39 @@ void Blob::Update() {
         caffe_axpy(count_, float(-1), (const float*)diff_.get(), data_.get());
 }
 
+void Blob::FromProto(const BlobProto& proto) {
+        Reshape(proto.num(), proto.channels(), proto.height(), proto.width());
+        // copy data
+        float* data_vec = mutable_data();
+        for (int i = 0; i < count_; ++i) {
+                data_vec[i] = proto.data(i);
+        }
+        if (proto.diff_size() > 0) {
+                float* diff_vec = mutable_diff();
+                for (int i = 0; i < count_; ++i) {
+                        diff_vec[i] = proto.diff(i);
+                }
+        }
+}
+
+void Blob::ToProto(BlobProto* proto, bool write_diff) const {
+        proto->set_num(num_);
+        proto->set_channels(channels_);
+        proto->set_height(height_);
+        proto->set_width(width_);
+        proto->clear_data();
+        proto->clear_diff();
+        const float* data_vec = data();
+        for (int i = 0; i < count_; ++i) {
+                proto->add_data(data_vec[i]);
+        }
+        if (write_diff) {
+                const float* diff_vec = diff();
+                for (int i = 0; i < count_; ++i) {
+                        proto->add_diff(diff_vec[i]);
+                }
+        }
+}
+
 }
 

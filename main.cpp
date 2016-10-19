@@ -9,7 +9,8 @@
 #include "blob.hpp"
 #include "io.hpp"
 #include "net.hpp"
-
+#include "caffe.pb.h"
+#include "solver.hpp"
 /*
 DEFINE_string(solver, "",
     "The solver definition protocol buffer text file.");
@@ -70,5 +71,38 @@ int main(int argc, char** argv)
         caffe::ReadProtoFromTextFile("data/lenet.prototxt", &net_param);
         std::vector<caffe::Blob*> bottom_vec;
         caffe::Net caffe_net(net_param, bottom_vec);
+
+        LOG(ERROR) << "Performing Forward";
+        caffe_net.Forward(bottom_vec);
+        LOG(ERROR) << "Performing Backward";
+        LOG(ERROR) << "Initial loss: " << caffe_net.Backward();
+
+        caffe::SolverParameter solver_param;
+        solver_param.set_base_lr(0.01);
+        solver_param.set_display(1);
+        solver_param.set_max_iter(6000);
+        solver_param.set_lr_policy("inv");
+        solver_param.set_gamma(0.0001);
+        solver_param.set_power(0.75);
+        solver_param.set_momentum(0.9);
+        solver_param.set_weight_decay(0.0005);
+
+
+        LOG(ERROR) << "Starting Optimization";
+        caffe::SGDSolver solver(solver_param);
+        solver.Solve(&caffe_net);
+        LOG(ERROR) << "Optimization Done.";
+
+
+        // Run the network after training.
+        LOG(ERROR) << "Performing Forward";
+        caffe_net.Forward(bottom_vec);
+        LOG(ERROR) << "Performing Backward";
+        float loss = caffe_net.Backward();
+        LOG(ERROR) << "Final loss: " << loss;
+
+        caffe::NetParameter trained_net_param;
+        caffe_net.ToProto(&trained_net_param);
+
         return 0;
 }

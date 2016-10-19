@@ -37,6 +37,7 @@ public:
         std::vector<boost::shared_ptr<Blob > >& params() { return params_; };
 
         void Update();
+        void ToProto(NetParameter* param, bool write_diff = false);
 
 protected:
         // Individual layers in the net

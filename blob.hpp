@@ -2,6 +2,7 @@
 #define CAFFE_BLOB_HPP_
 
 #include<boost/shared_ptr.hpp>
+#include "caffe.pb.h"
 
  namespace caffe {
 class Blob {
@@ -29,6 +30,8 @@ public:
         // Copy from source. If copy_diff is false, we copy the data; if copy_diff is true, we copy the diff.
         void CopyFrom(const Blob& source, bool copy_diff = false, bool reshape = false);
         void Update();
+        void FromProto(const caffe::BlobProto& proto);
+        void ToProto(BlobProto* proto, bool write_diff = false) const;
 
 protected:
         boost::shared_ptr<float> data_;
