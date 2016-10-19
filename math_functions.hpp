@@ -1,8 +1,13 @@
 #ifndef CAFFE_MATH_FUNCTIONS_HPP_
 #define CAFFE_MATH_FUNCTIONS_HPP_
 
+#include <boost/math/special_functions/next.hpp>
 #include <glog/logging.h>
+extern "C" {
 #include <cblas.h>
+}
+
+#include "mkl_alternate.hpp"
 
 namespace caffe {
 void caffe_cpu_gemm(const CBLAS_TRANSPOSE TransA,
@@ -16,6 +21,13 @@ void caffe_cpu_gemv(const CBLAS_TRANSPOSE TransA, const int M, const int N,
 
 void caffe_axpy(const int N, const float alpha, const float* X, float* Y);
 
+void caffe_scal(const int N, const float alpha, float *X);
+
+void caffe_exp(const int n, const float* a, float* y);
+
+void caffe_mul(const int N, const float* a, const float* b, float* y);
+
+float caffe_cpu_dot(const int n, const float* x, const float* y);
 /*void caffe_cpu_axpby(const int N, const float alpha, const float* X,
     const float beta, float* Y);
 
