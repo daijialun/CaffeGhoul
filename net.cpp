@@ -97,5 +97,18 @@ Net::Net(const NetParameter& param, const std::vector<Blob*> &bottom)  {
         LOG(ERROR) << "Network initialization done.";
 }
 
+const std::vector<Blob*>& Net::Forward(const std::vector<Blob*> & bottom) {
+        // Copy bottom to internal bottom
+        for (int i = 0; i < bottom.size(); ++i) {
+                blobs_[net_input_blob_indices_[i]]->CopyFrom(*bottom[i]);
+        }
+        for (int i = 0; i < layers_.size(); ++i) {
+                //LOG(ERROR) << "Forwarding " << layer_names_[i];
+                layers_[i]->Forward(bottom_vecs_[i], &top_vecs_[i]);
+        }
+        return net_output_blobs_;
+}
+
+
 }
 
